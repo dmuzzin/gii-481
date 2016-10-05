@@ -1,1 +1,1 @@
-alert("Hello, world!  I am totally not a malicious script :^)")
+console.log("Page contains " + document.getElementsByTagName('img').length + " images");
