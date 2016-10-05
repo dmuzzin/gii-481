@@ -1,0 +1,16 @@
+{
+    "name": "Describ-o-tron 9000",
+    "version": "0.01",
+    "description": "Transcribes images for vision impaired users",
+    "icons": { "128": "icon.png" },
+    "background": {
+	"persistent": false,
+	"scripts": ["background.js"]
+    },
+    "content_scripts": [
+	{
+	    "matches": ["*"],
+	    "js": ["image_ident.js"]
+	}
+    ]
+}
