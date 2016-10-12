@@ -20,16 +20,18 @@ function Replacer() {
 		img.setAttribute('alt', transcribed);
 	}
 
+	//Microsoft's image description seemes to be A LOT better
 	this.parseMicrosoftDescribe = function(img, description) {
 		var response = JSON.parse(description);
 		var caption = response.captions[0].text;
 		img.setAttribute('alt', caption);
 	}
 
+	//Google's OCR seems to be A LOT better
 	this.parseGoogleOCR = function(img, transcription) {
 		var response = JSON.parse(transcription);
 		text = response.textAnnotations;
-		transcribed = text.description;
+		transcribed = text[0].description;
 		//Remove new line from description text
 		transcribed = transcribed.replace(/\n/g, ' ');
 		//Remove backslash from description test
