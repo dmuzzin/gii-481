@@ -1,0 +1,15 @@
+Figured it would be a good idea to keep track of considerations for our project in 
+one combined location so we can make sure to address these concerns.
+
+FORMAT:
+Consideration: 
+How it will be addressed:
+Implemented:
+
+Consideration: How can extension prompt the user image by image when screen readers skip images with blank alt tags
+How will it be addressed: Will have to consider screen reader by screen reader how to make it possible to navigate to these images if we want this functionality
+Implemented (Y/N):
+
+Consideration: How will our extension reprompt the user on dynamic web pages? F.E. go to espn.com then click the main article link
+How it will be addressed:
+Implemented:
