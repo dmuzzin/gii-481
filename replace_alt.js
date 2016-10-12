@@ -16,20 +16,36 @@ function parseMicrosoftOCR(img, transcription) {
 		}
 	}
 	transcribed = transcribed.substring(1, transcribed.length - 1);
-	img.setAttribute("alt", transcribed);
-	return;
+	img.setAttribute('alt', transcribed);
 }
 
 function parseMicrosoftDescribe(img, description) {
 	var response = JSON.parse(description);
 	var caption = response.captions[0].text;
-	img.setAttribute("alt", caption);
+	img.setAttribute('alt', caption);
 }
 
 function parseGoogleOCR(img, transcription) {
-
+	var response = JSON.parse(transcription);
+	text = response.textAnnotations;
+	transcribed = text.description;
+	//Remove new line from description text
+	transcribed = transcribed.replace(/\n/g, ' ');
+	//Remove backslash from description test
+	transcribed = transcribed..replace(/\\/g, '');
+	img.setAttribute('alt', transcribed);
 }
 
 function parseGoogleDescribe(img, description) {
-	
+	var response = JSON.parse(description);
+	labels_returned = response.labelAnnotations;
+	labels = '';
+	for(i in labels_returned) {
+		//Setting arbitrary threshold on whether it is good or not
+		if(labels[i].score > 60) {
+			labels = labels.concat(labels_returned[i].description + ', ');
+		}
+	}
+	labels = labels.substring(0, labels.length - 2);
+	img.setAttribute('alt', labels);
 }
