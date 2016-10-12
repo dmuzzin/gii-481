@@ -1,51 +1,53 @@
-function prototypeReplacement(img) {
-	img.setAttribute("alt", "This is alternative text for an image");
-}
+function Replacer() {
+	this.prototypeReplacement = function(img) {
+		img.alt = "This is alternative text for an image";
+	}
 
-function parseMicrosoftOCR(img, transcription) {
-	var response = JSON.parse(transcription);
-	var regions = response.regions;
-	var transcribed = "";
-	for(var i in regions) {
-		lines = regions[i].lines;
-		for(var j in lines) {
-			words = lines[j].words;
-			for(var k in words) {
-				transcribed = transcribed.concat(" " + k.text);
+	this.parseMicrosoftOCR = function(img, transcription) {
+		var response = JSON.parse(transcription);
+		var regions = response.regions;
+		var transcribed = "";
+		for(var i in regions) {
+			lines = regions[i].lines;
+			for(var j in lines) {
+				words = lines[j].words;
+				for(var k in words) {
+					transcribed = transcribed.concat(" " + k.text);
+				}
 			}
 		}
+		transcribed = transcribed.substring(1, transcribed.length - 1);
+		img.setAttribute('alt', transcribed);
 	}
-	transcribed = transcribed.substring(1, transcribed.length - 1);
-	img.setAttribute('alt', transcribed);
-}
 
-function parseMicrosoftDescribe(img, description) {
-	var response = JSON.parse(description);
-	var caption = response.captions[0].text;
-	img.setAttribute('alt', caption);
-}
+	this.parseMicrosoftDescribe = function(img, description) {
+		var response = JSON.parse(description);
+		var caption = response.captions[0].text;
+		img.setAttribute('alt', caption);
+	}
 
-function parseGoogleOCR(img, transcription) {
-	var response = JSON.parse(transcription);
-	text = response.textAnnotations;
-	transcribed = text.description;
-	//Remove new line from description text
-	transcribed = transcribed.replace(/\n/g, ' ');
-	//Remove backslash from description test
-	transcribed = transcribed..replace(/\\/g, '');
-	img.setAttribute('alt', transcribed);
-}
+	this.parseGoogleOCR = function(img, transcription) {
+		var response = JSON.parse(transcription);
+		text = response.textAnnotations;
+		transcribed = text.description;
+		//Remove new line from description text
+		transcribed = transcribed.replace(/\n/g, ' ');
+		//Remove backslash from description test
+		transcribed = transcribed.replace(/\\/g, '');
+		img.setAttribute('alt', transcribed);
+	}
 
-function parseGoogleDescribe(img, description) {
-	var response = JSON.parse(description);
-	labels_returned = response.labelAnnotations;
-	labels = '';
-	for(i in labels_returned) {
-		//Setting arbitrary threshold on whether it is good or not
-		if(labels[i].score > 60) {
-			labels = labels.concat(labels_returned[i].description + ', ');
+	this.parseGoogleDescribe = function(img, description) {
+		var response = JSON.parse(description);
+		labels_returned = response.labelAnnotations;
+		labels = '';
+		for(i in labels_returned) {
+			//Setting arbitrary threshold on whether it is good or not
+			if(labels[i].score > 60) {
+				labels = labels.concat(labels_returned[i].description + ', ');
+			}
 		}
+		labels = labels.substring(0, labels.length - 2);
+		img.setAttribute('alt', labels);
 	}
-	labels = labels.substring(0, labels.length - 2);
-	img.setAttribute('alt', labels);
 }
