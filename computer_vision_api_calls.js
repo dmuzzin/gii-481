@@ -45,7 +45,7 @@ function processFile (event) {
 }
 
 function sendFileToCloudVision (content) {
-  var type = $('#fileform [name=type]').val();
+  var type = file.name.substring(file.name.lastIndexOf('.'));
 
   // Strip out the file prefix when you convert to json.
   var request = {
@@ -60,6 +60,8 @@ function sendFileToCloudVision (content) {
     }]
   };
 
+  var replace = new Replacer();
+
   $('#results').text('Loading...');
   $.post({
     url: CV_URL,
@@ -67,16 +69,5 @@ function sendFileToCloudVision (content) {
     contentType: 'application/json'
   }).fail(function (jqXHR, textStatus, errorThrown) {
     $('#results').text('ERRORS: ' + textStatus + ' ' + errorThrown);
-  }).done(displayJSON);
-}
-
-/**
- * Displays the results.
- */
-function displayJSON (data) {
-  var contents = JSON.stringify(data, null, 4);
-  $('#results').text(contents);
-  var evt = new Event('results-displayed');
-  evt.results = contents;
-  document.dispatchEvent(evt);
+  }).done(replace.parseGoogleOCR(img, data));
 }
