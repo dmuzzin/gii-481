@@ -1,5 +1,6 @@
 function Replacer() {
 	this.prototypeReplacement = function(img) {
+		console.log(img.src);
 		img.alt = "This is alternative text for an image";
 	}
 
