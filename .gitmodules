@@ -1,3 +1,6 @@
 [submodule "gii-dev-keys"]
-	path = gii-dev-keys
+	path = keys
+	url = git@github.com:DanielVukelich/gii-dev-keys.git
+[submodule "keys"]
+	path = keys
 	url = git@github.com:DanielVukelich/gii-dev-keys.git
