@@ -17,7 +17,7 @@
     "content_scripts": [
 	{
 	    "matches": ["<all_urls>"],
-	    "js": ["replace_alt.js", "image_ident.js"],
+	    "js": ["replace_alt.js", "gii-dev-keys/keys.js", "image_ident.js"],
 	    "run_at": "document_end"
 	}
     ]
