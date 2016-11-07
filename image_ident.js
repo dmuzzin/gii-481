@@ -15,8 +15,9 @@ if(unnamed_count != 0){
 	for(i = 0; i < images.length; ++i){
 	    if(!images[i].getAttribute("alt")){
 		//Image has no alt-text.  Send it to be transcribed
-		replace.parseMicrosoftDescribe(images[i]);
+		replace.parseMicrosoftDescribe(images[i], 0);
 	    }
 	}	
     }
 }
+
