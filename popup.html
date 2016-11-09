@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html>
+<head>
+
+ </head>
+
 <body>
 
 <form action="web_settings.asp" method="get">
   <input type="checkbox" name="remember" value="save_settings"> save settings for this website<br>
-  <input type="submit" value="transcribe">
-  <input type="submit" value="do not transcribe">
+  <button type="button" id="transcribe">Transcribe</button>
+  <button type="button" id="not_transcribe">Do Not Transcribe</button>
+  <script src="popup.js"></script>
 </form>
 
 </body>
