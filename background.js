@@ -5,15 +5,16 @@ chrome.runtime.onMessage.addListener(function(request) {
             url: chrome.extension.getURL('popup.html'),
             active: false
         }, function(tab) {
-            // After the tab has been created, open a window to inject the tab
+            // inject the new tab into window
             chrome.windows.create({
                 tabId: tab.id,
                 type: 'popup',
                 focused: true,
 				height: 150,
 				width:250
-                // incognito, top, left, ...
+                // other settings
             });
         });
     }
 });
+
