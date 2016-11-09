@@ -9,7 +9,9 @@ chrome.runtime.onMessage.addListener(function(request) {
             chrome.windows.create({
                 tabId: tab.id,
                 type: 'popup',
-                focused: true
+                focused: true,
+				height: 150,
+				width:250
                 // incognito, top, left, ...
             });
         });
