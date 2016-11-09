@@ -1,7 +1,11 @@
+
+
 		function transcribe() 
 		{ 
-			window.open('','_parent',''); 
-			window.close();
+			var save = document.getElementById('save').checked;
+			console.log("var = " + save);
+			//window.open('','_parent',''); 
+			//window.close();
 		} 
 		function not_transcribe() 
 		{
