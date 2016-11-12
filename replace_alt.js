@@ -7,20 +7,74 @@ function sleep (seconds) {
 
 function Replacer() {
 
-    this.parseMicrosoftOCR = function(img, transcription) {
-	//Do stuff
+    this.parseMicrosoftOCR = function(img, recurse_count) {
+
+	var _this = this;
+
+	if(recurse_count >= 2){
+	    console.log("Couldn't transcribe image.  Too many failures");
+	    return;
+	}
+
+        var params = {
+            // Request parameters
+            "language": "unk",
+            "detectOrientation ": "true",
+        };
+
+	var dta = {
+	    url: img.src,
+	}
+
+        var s = $.ajax({
+            url: "https://api.projectoxford.ai/vision/v1.0/ocr?" + $.param(params),
+            beforeSend: function(xhrObj){
+                // Request headers
+                xhrObj.setRequestHeader("Content-Type","application/json");
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", mskey);
+            },
+            type: "POST",
+            // Request body
+            data: JSON.stringify(dta),
+        })
+            .done(function(data) {
+		var txt = "";
+		for(var reg = 0; reg < data.regions.length; ++reg){
+		    for(var line = 0; line < data.regions[reg].lines.length; ++line){
+			for(var word = 0; word < data.regions[reg].lines[line].words.length; ++word){
+			    txt = txt + " " + data.regions[reg].lines[line].words[word].text;
+			}
+		    }
+		}
+		console.log(txt);
+		console.log("Success after " + recurse_count + " retries");
+		if(txt.length != 0){
+		    img.alt = img.alt + " Image contains the text: " + txt;
+		}
+            })
+            .fail(function(data) {
+		if(data.status == 429){
+		    //Timeout error.  Try again
+		    console.log("Rate limit error.  Retrying.");
+		    setTimeout( _this.parseMicrosoftDescribe(img, recurse_count + 1), 5000);
+		    console.log("End sleep");
+		}else{
+		    console.log(data);
+		}
+            });
+
     }
 
     //Microsoft's image description seemes to be A LOT better
     this.parseMicrosoftDescribe = function(img, recurse_count) {
 
 	var _this = this;
-	
+
 	if(recurse_count >= 2){
 	    console.log("Couldn't transcribe image.  Too many failures");
 	    return;
 	}
-	
+
         var params = {
             // Request parameters
             "maxCandidates": "1",
@@ -29,7 +83,7 @@ function Replacer() {
 	var dta = {
 	    url: img.src,
 	}
-	
+
         var s = $.ajax({
             url: "https://api.projectoxford.ai/vision/v1.0/describe?" + $.param(params),
             beforeSend: function(xhrObj){
@@ -45,7 +99,7 @@ function Replacer() {
 		var text =  data.description.captions[0].text;
 		console.log(text);
 		console.log("Success after " + recurse_count + " retries");
-		img.alt = text;
+		img.alt = img.alt + " " + text;
             })
             .fail(function(data) {
 		if(data.status == 429){
@@ -53,7 +107,7 @@ function Replacer() {
 		    console.log("Rate limit error.  Retrying.");
 		    setTimeout( _this.parseMicrosoftDescribe(img, recurse_count + 1), 5000);
 		    console.log("End sleep");
-		}else{		    
+		}else{
 		    console.log(data);
 		}
             });
@@ -98,6 +152,5 @@ function Replacer() {
 	}).done(replace.parseGoogleOCR(img, data));
     }
 
-    
-}
 
+}
