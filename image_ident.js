@@ -9,7 +9,17 @@ for(i = 0; i < images.length; ++i){
 
 //If the page contains images without an alt-text, ask the user if we should transcribe them
 if(unnamed_count != 0){
+	transcribe = localStorage["setting"];
 	chrome.runtime.sendMessage({type:'webpage_settings'});
+	//transcribe based on setting (not working)
+	if(transcribe)
+	{
+		console.log("transcribe");
+	}
+	else
+	{
+		console.log("not transcribe");		
+	}
 /*
     if(confirm("This page has " + unnamed_count + " images that your screen reader cannot read.  Would you like to try to transcribe them?")){
 	//Add generic alt attribute to these images for Alpha release
