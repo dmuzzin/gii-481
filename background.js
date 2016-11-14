@@ -18,9 +18,22 @@ chrome.runtime.onMessage.addListener(function(request) {
         });
     }    
 });
- chrome.extension.onConnect.addListener(function(port) {
-      console.log("Connected .....");
-      port.onMessage.addListener(function(msg) {
-           console.log("message recieved" + msg);
-      });
- });
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.message == "saveTrans")
+	{
+		//do something to save settings as always transcribe
+		sendResponse({farewell: "saving as always transcribe"});
+	}
+	if(request.message == "saveNoTrans")
+	{
+		//do something to save settings as never transcribe
+		sendResponse({farewell: "saveing as never transcribe"});
+	}
+	if(request.message == "doTrans")
+	{
+		//do the transcription for the website
+		sendResponse({farewell: "do the transcription"});
+	}
+  });

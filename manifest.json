@@ -1,7 +1,7 @@
 {
     "name": "Describ-o-tron 9000",
     "manifest_version": 2,
-    "version": "0.01",
+    "version": "0.1",
     "description": "Transcribes images for vision impaired users",
     "icons": {
 	"38" : "icon-38.png",
@@ -15,7 +15,9 @@
 	"scripts": ["background.js", "jquery.min.js"]
     },
 	"permissions": [
-		"storage"
+		"<all_urls>",
+		"storage",
+		"tabs"
 	],
     "content_scripts": [
 	{
