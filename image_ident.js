@@ -9,10 +9,14 @@ for(i = 0; i < images.length; ++i){
 
 //If the page contains images without an alt-text, ask the user if we should transcribe them
 if(unnamed_count != 0){
+	//atempt to load settings
 	var settings;
 	chrome.storage.local.get(["transcribe"], function(settings){});
 	console.log("items = " + settings);
+	
+	//create popup window in background
 	chrome.runtime.sendMessage({type:'webpage_settings'});
+	
 	//transcribe based on setting (not working)
 	/*
 	if(transcribe)

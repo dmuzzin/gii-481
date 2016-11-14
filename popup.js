@@ -14,7 +14,7 @@ function transcribe()
 	chrome.runtime.sendMessage({message: "doTrans"}, function(response) {
 	console.log(response.farewell);
 	});
-	//uncomment to close window on press
+	/*uncomment to close window on press*/
 	//window.open('','_parent',''); 
 	//window.close();
 } 
@@ -29,10 +29,11 @@ function not_transcribe()
 		console.log(response.farewell);
 		});
 	}
-	//uncomment to close the window on press
+	/*uncomment to close the window on press*/
 	//window.open(",'_parent',");
 	//window.close();
 }
 
+//on click triggers
 document.getElementById('transcribe').onclick = transcribe;
 document.getElementById('not_transcribe').onclick = not_transcribe;
