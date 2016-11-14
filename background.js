@@ -1,7 +1,6 @@
 //alert("This page can runs in the backgrouna and could eventually be used for caching")
 chrome.runtime.onMessage.addListener(function(request) {
     if (request.type === 'webpage_settings') {
-		confirm("yellow");
         chrome.tabs.create({
             url: chrome.extension.getURL('popup.html'),
             active: false
@@ -24,12 +23,14 @@ chrome.runtime.onMessage.addListener(
     if (request.message == "saveTrans")
 	{
 		//do something to save settings as always transcribe
+		chrome.storage.sync.set({ "transcribe": "pleaseDo" }, function(){});
 		sendResponse({farewell: "saving as always transcribe"});
 	}
 	if(request.message == "saveNoTrans")
 	{
 		//do something to save settings as never transcribe
-		sendResponse({farewell: "saveing as never transcribe"});
+		chrome.storage.sync.set({ "transcribe": "pleaseNo" }, function(){});
+		sendResponse({farewell: "saving as never transcribe"});
 	}
 	if(request.message == "doTrans")
 	{
