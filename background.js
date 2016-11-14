@@ -17,13 +17,10 @@ chrome.runtime.onMessage.addListener(function(request) {
             });
         });
     }    
-	//These are supposed to come from the popup.js
-	if (request.type === 'savetranscribe') {
-		comfirm("orange");
-		localStorage["setting"] = true;
-    }
-	if (request.type === 'savenot') {
-		localStorage["setting"] = false;
-    }
 });
-
+ chrome.extension.onConnect.addListener(function(port) {
+      console.log("Connected .....");
+      port.onMessage.addListener(function(msg) {
+           console.log("message recieved" + msg);
+      });
+ });
