@@ -3,6 +3,7 @@ var unnamed_count = 0;
 for(i = 0; i < images.length; ++i){
     if(!images[i].getAttribute("alt")){
 	//Image has no alt-text
+	images[i].tabIndex = 0;
 	unnamed_count = unnamed_count + 1;
     }
 }
@@ -40,3 +41,12 @@ if(unnamed_count != 0){
 	}
     }*/
 }
+/*
+$('img').focus(function () {
+	if(confirm("This is an image that your screen reader cannot read.  Would you like to try to transcribe it?")){
+		var replace = new Replacer();
+		replace.toDataUrl(this, "LABEL");
+	}
+	this.blur();
+})
+*/
