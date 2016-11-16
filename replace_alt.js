@@ -113,44 +113,93 @@ function Replacer() {
             });
     }
 
-    //Google's OCR seems to be A LOT better
-    this.parseGoogleOCR = function(img, transcription) {
-	//Do stuff
+	this.toDataUrl = function(img, type) {
+  		var xhr = new XMLHttpRequest();
+  		xhr.responseType = 'blob';
+  		xhr.onload = function() {
+    		var reader = new FileReader();
+    		reader.onloadend = function() {
+    			var content = reader.result.replace(/^data:image\/(png|jpeg|jpg|gif);base64,/, "");
+    			if(type == "OCR") {
+    				sendToGoogleOCR(img, content);
+    			} else {
+    				sendToGoogleLabel(img, content)
+    			}
+    		}
+    		reader.readAsDataURL(xhr.response);
+  		};
+  		xhr.open('GET', img.src);
+  		xhr.send();
+	}
+
+    function sendToGoogleLabel(img, encoded) {
+    	var content = encoded;
+    	var CV_URL = 'https://vision.googleapis.com/v1/images:annotate?key=' + gcvkey;
+    	var request = {
+	    	requests: [{
+				image: {
+		    		content: content
+				},
+				features: [{
+		    		type: "LABEL_DETECTION",
+		    		maxResults: 200
+				}]
+	    	}]
+		};
+		$.ajax({
+			type: 'POST',
+            crossDomain : true,
+    		url: CV_URL,
+    		data: JSON.stringify(request),
+    		contentType: 'application/json',
+    		success: function (data) {
+    			var altText = data['responses'][0]['labelAnnotations'][0]['description'];
+    			console.log(altText);
+    			img.setAttribute("alt", altText);
+                displayJSON(data);
+            },
+            error: function (e) {
+                console.log(e);
+            }
+  		});
+
     }
 
-
-    function processFile (event) {
-	var content = event.target.result;
-	sendFileToCloudVision(content.replace('data:image/jpeg;base64,', ''));
+    function sendToGoogleOCR(img, encoded) {
+    	var content = encoded;
+    	var CV_URL = 'https://vision.googleapis.com/v1/images:annotate?key=' + gcvkey;
+    	var request = {
+	    	requests: [{
+				image: {
+		    		content: content
+				},
+				features: [{
+		    		type: "TEXT_DETECTION",
+		    		maxResults: 200
+				}]
+	    	}]
+		};
+		$.ajax({
+			type: 'POST',
+            crossDomain : true,
+    		url: CV_URL,
+    		data: JSON.stringify(request),
+    		contentType: 'application/json',
+    		success: function (data) {
+    			var altText = data['responses'][0]['textAnnotations'][0]['description'];
+    			altText = altText.replace(/(\r\n|\n|\r)/gm, ' ');
+    			console.log(altText);
+    			img.setAttribute("alt", altText);
+                displayJSON(data);
+            },
+            error: function (e) {
+                console.log(e);
+            }
+  		});
     }
 
-    function sendFileToCloudVision (content) {
-	var type = file.name.substring(file.name.lastIndexOf('.'));
-
-	// Strip out the file prefix when you convert to json.
-	var request = {
-	    requests: [{
-		image: {
-		    content: content
-		},
-		features: [{
-		    type: type,
-		    maxResults: 200
-		}]
-	    }]
-	};
-
-	var replace = new Replacer();
-
-	$('#results').text('Loading...');
-	$.post({
-	    url: CV_URL,
-	    data: JSON.stringify(request),
-	    contentType: 'application/json'
-	}).fail(function (jqXHR, textStatus, errorThrown) {
-	    $('#results').text('ERRORS: ' + textStatus + ' ' + errorThrown);
-	}).done(replace.parseGoogleOCR(img, data));
-    }
-
-
+    function displayJSON (data) {
+  		var contents = JSON.stringify(data, null, 4);
+  		console.log(contents);
+	}
 }
