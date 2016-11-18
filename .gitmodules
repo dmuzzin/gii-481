@@ -1,6 +1,3 @@
 [submodule "gii-dev-keys"]
 	path = gii-dev-keys
 	url = git@github.com:DanielVukelich/gii-dev-keys.git
-[submodule "gii-db-webapp"]
-	path = gii-db-webapp
-	url = https://github.com/dmuzzin/gii-db-webapp.git
