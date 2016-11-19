@@ -12,8 +12,9 @@ for(i = 0; i < images.length; ++i){
 if(unnamed_count != 0){
 	//atempt to load settings
 	var settings;
-	chrome.storage.local.get(["transcribe"], function(settings){});
-	console.log("items = " + settings);
+	chrome.storage.sync.get('mytext', function(settings) {
+	console.log("items = " + settings.mytext);
+	});
 	
 	//create popup window in background
 	chrome.runtime.sendMessage({type:'webpage_settings'});
