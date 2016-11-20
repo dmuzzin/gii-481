@@ -8,42 +8,28 @@ for(i = 0; i < images.length; ++i){
     }
 }
 
+
 //If the page contains images without an alt-text, ask the user if we should transcribe them
 if(unnamed_count != 0){
-	//atempt to load settings
-	chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
-		console.log(message.text);
-	});
-	
-	//test function
+
+	//replace "dingydooo" with the setting to be saved
 	localStorage.setItem(document.domain,"dingydooo");
 	console.log(localStorage.getItem(document.domain));
 	
 	
 	//create popup window in background
-	chrome.runtime.sendMessage({type:'webpage_settings'});
-	
-	//read a key that was saved in background.js to determine something
-	var settings; 
-	var setit="nothing";
-	chrome.storage.sync.get('key', function(settings) { 
-		setit = settings.key;
+	chrome.runtime.sendMessage({type: 'webpage_settings'}, function(response) {
+		console.log(response.farewell); //prints backgrounds response 
 	});
-
-	console.log("items = " + setit); 
 	
-	//chrome.storage.sync.set({ key: "nothing"})
 	
-	//transcribe based on setting (not working)
 	/*
-	if(transcribe)
-	{
-		console.log("transcribe");
-	}
-	else
-	{
-		console.log("not transcribe");		
-	}*/
+	var obj;
+	chrome.storage.sync.get('key', function (obj) {
+    console.log('myKey', obj.key);
+    });
+	*/
+	
 /*
     if(confirm("This page has " + unnamed_count + " images that your screen reader cannot read.  Would you like to try to transcribe them?")){
 	//Add generic alt attribute to these images for Alpha release
