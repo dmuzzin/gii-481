@@ -11,13 +11,28 @@ for(i = 0; i < images.length; ++i){
 //If the page contains images without an alt-text, ask the user if we should transcribe them
 if(unnamed_count != 0){
 	//atempt to load settings
-	var settings;
-	chrome.storage.sync.get('mytext', function(settings) {
-	console.log("items = " + settings.mytext);
+	chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
+		console.log(message.text);
 	});
+	
+	//test function
+	localStorage.setItem(document.domain,"dingydooo");
+	console.log(localStorage.getItem(document.domain));
+	
 	
 	//create popup window in background
 	chrome.runtime.sendMessage({type:'webpage_settings'});
+	
+	//read a key that was saved in background.js to determine something
+	var settings; 
+	var setit="nothing";
+	chrome.storage.sync.get('key', function(settings) { 
+		setit = settings.key;
+	});
+
+	console.log("items = " + setit); 
+	
+	//chrome.storage.sync.set({ key: "nothing"})
 	
 	//transcribe based on setting (not working)
 	/*

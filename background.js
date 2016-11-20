@@ -23,18 +23,24 @@ chrome.runtime.onMessage.addListener(
     if (request.message == "saveTrans")
 	{
 		//do something to save settings as always transcribe
-		chrome.storage.sync.set({ mytext: "transcribe" });
+		chrome.storage.sync.set({ key: "save transcribe" });
 		sendResponse({farewell: "saving as always transcribe"});
 	}
 	if(request.message == "saveNoTrans")
 	{
 		//do something to save settings as never transcribe
-		chrome.storage.sync.set({ mytext: "do not transcribe" });
+		chrome.storage.sync.set({ key: "save do not transcribe" });
 		sendResponse({farewell: "saving as never transcribe"});
 	}
 	if(request.message == "doTrans")
 	{
 		//do the transcription for the website
+		chrome.storage.sync.set({ key: "do transcribe"})
 		sendResponse({farewell: "do the transcription"});
+	}
+	if(request.message == "noTrans")
+	{
+		chrome.storage.sync.set({ key: "do not transcribe"})
+		sendResponse({farewell: "do not transcribe"});
 	}
   });
