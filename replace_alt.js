@@ -1,4 +1,4 @@
-                                                                                                                                                                                        
+
 function sleep (seconds) {
     var start = new Date().getTime();
     while (new Date() < start + seconds*1000) {}
@@ -97,10 +97,13 @@ function Replacer() {
             data: JSON.stringify(dta),
         })
             .done(function(data) {
-		var text =  data.description.captions[0].text;
-		console.log(text);
-		console.log("Success after " + recurse_count + " retries");
-		img.alt += "This image is described as: " + text + ". ";
+		var capt = data.description.captions[0];
+		if(capt.confidence > 0.45){
+		    var text = capt.text;
+		    console.log(text);
+		    console.log("Success after " + recurse_count + " retries");
+		    img.alt += "This image is described as: " + text + ". ";
+		}
         return text;
             })
             .fail(function(data) {
