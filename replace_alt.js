@@ -192,11 +192,34 @@ function Replacer() {
     		data: JSON.stringify(request),
     		contentType: 'application/json',
     		success: function (data) {
-    			var altText = data['responses'][0]['textAnnotations'][0]['description'];
-    			altText = altText.replace(/(\r\n|\n|\r)/gm, ' ');
-    			console.log(altText);
                 displayJSON(data);
-                img.alt += "This image contains the text: " + altText + ". "
+                //Not english characters picked up by OCR -> ignore [bad transcription]
+                if(data['responses'][0]['textAnnotations'][0]['locale'] == 'en') {
+                    var altText = data['responses'][0]['textAnnotations'][0]['description'];
+                    altText = altText.replace(/(\r\n|\n|\r)/gm, ' ');
+                    altText = altText.toLowerCase();
+                    console.log(altText);
+                    displayJSON(data);
+                    var words = altText.split(' ');
+                    var valid = 0;
+                    var invalid = 0;
+                    for(var i = 0; i < words.length; ++i) {
+                        if(dic.indexOf(words[i]) > -1) {
+                            valid = valid + 1;
+                        } else {
+                            invalid = invalid + 1;
+                        }
+                    }
+                    console.log(valid);
+                    console.log(invalid);
+                    if(valid > invalid) {
+                        img.alt += "This image contains the text: " + altText + ". ";
+                    } else {
+                        console.log("Algorithm determined OCR to be invalid");
+                    }
+                } else {
+                    console.log("This image does not contain valid text");
+                }
             },
             error: function (e) {
                 console.log(e);
