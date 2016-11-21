@@ -69,6 +69,8 @@ if(confirm("This page has images that your screen reader cannot read. Would you 
 
 $('img').focus(function () {
 	if(this.alt == "" || !this.alt) {
+		//Hacky way to prevent confirm message from firing twice
+		this.alt = " ";
 		if(confirm("This is an image that your screen reader cannot read.  Would you like to try to transcribe it?")){
 			var replace = new Replacer();
 			replace.parseMicrosoftDescribe(this, 0);
