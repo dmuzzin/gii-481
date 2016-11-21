@@ -1,4 +1,4 @@
-
+                                                                                                                                                                                        
 function sleep (seconds) {
     var start = new Date().getTime();
     while (new Date() < start + seconds*1000) {}
@@ -49,7 +49,8 @@ function Replacer() {
 		console.log(txt);
 		console.log("Success after " + recurse_count + " retries");
 		if(txt.length != 0){
-		    img.alt = img.alt + " Image contains the text: " + txt;
+		    //img.alt = img.alt + " Image contains the text: " + txt;
+            return txt;
 		}
             })
             .fail(function(data) {
@@ -99,7 +100,8 @@ function Replacer() {
 		var text =  data.description.captions[0].text;
 		console.log(text);
 		console.log("Success after " + recurse_count + " retries");
-		img.alt = img.alt + " " + text;
+		img.alt += "This image is described as: " + text + ". ";
+        return text;
             })
             .fail(function(data) {
 		if(data.status == 429){
@@ -155,8 +157,8 @@ function Replacer() {
     		success: function (data) {
     			var altText = data['responses'][0]['labelAnnotations'][0]['description'];
     			console.log(altText);
-    			img.setAttribute("alt", altText);
                 displayJSON(data);
+                return altText;
             },
             error: function (e) {
                 console.log(e);
@@ -189,8 +191,8 @@ function Replacer() {
     			var altText = data['responses'][0]['textAnnotations'][0]['description'];
     			altText = altText.replace(/(\r\n|\n|\r)/gm, ' ');
     			console.log(altText);
-    			img.setAttribute("alt", altText);
                 displayJSON(data);
+                img.alt += "This image contains the text: " + altText + ". "
             },
             error: function (e) {
                 console.log(e);

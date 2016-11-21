@@ -1,9 +1,11 @@
-var images = document.getElementsByTagName("img");
+/* var images = document.getElementsByTagName("img");
 var unnamed_count = 0;
 for(i = 0; i < images.length; ++i){
     if(!images[i].getAttribute("alt")){
 	//Image has no alt-text
 	images[i].tabIndex = 0;
+	//Add generic alt attribute so screen reader doesn't skip image
+	images[i].alt = "No alternate text provided";
 	unnamed_count = unnamed_count + 1;
     }
 }
@@ -21,7 +23,9 @@ if(unnamed_count != 0){
 	chrome.runtime.sendMessage({type: 'webpage_settings'}, function(response) {
 		console.log(response.farewell); //prints backgrounds response 
 	});
-	
+	if(localStorage.getItem('key') == 'yes') {
+		console.log("we're good");
+	}
 	
 	/*
 	var obj;
@@ -41,14 +45,33 @@ if(unnamed_count != 0){
 		replace.parseMicrosoftOCR(images[i], 0);
 	    }
 	}
-    }*/
+    }
+}*/
+
+if(confirm("This page has images that your screen reader cannot read. Would you like them all transcribed now? If not you can transcribe each image individually")) {
+	var images = document.getElementsByTagName("img");
+	for(i = 0; i < images.length; ++i){
+    	if(!images[i].getAttribute("alt")){
+			var replace = new Replacer();
+			replace.parseMicrosoftDescribe(images[i], 0);
+			replace.toDataUrl(images[i], 'OCR');
+		}
+    }
+} else {
+	var images = document.getElementsByTagName("img");
+	for(i = 0; i < images.length; ++i){
+    	if(!images[i].getAttribute("alt")){
+			//Image has no alt-text
+			images[i].tabIndex = 0;
+		}
+    }
 }
-/*
+
 $('img').focus(function () {
 	if(confirm("This is an image that your screen reader cannot read.  Would you like to try to transcribe it?")){
 		var replace = new Replacer();
-		replace.toDataUrl(this, "LABEL");
+		replace.parseMicrosoftDescribe(this, 0);
+		replace.toDataUrl(this, 'ocr');
 	}
 	this.blur();
 })
-*/
