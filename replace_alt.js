@@ -103,8 +103,9 @@ function Replacer() {
 		    console.log(text);
 		    console.log("Success after " + recurse_count + " retries");
 		    img.alt += "This image is described as: " + text + ". ";
-		}
-        return text;
+		} else {
+            img.alt += "We are not confident in the accuracy of the description of this image. "
+        }
             })
             .fail(function(data) {
 		if(data.status == 429){
