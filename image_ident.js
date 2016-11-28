@@ -6,6 +6,13 @@ for(i = 0; i < images.length; ++i){
     }
 }
 
+//listens for when a hotkey is pressed and the background handles it
+chrome.runtime.onMessage.addListener(function(msg) {
+    if (msg.action && (msg.action == "clearSettings")) {
+		console.log("clearing local storage");
+        localStorage.clear();
+    }
+});
 if(unnamed_count !=0) {
 	//localStorage.clear();
 	var settings = localStorage.getItem(document.domain); //load settings if available (null if not saved)

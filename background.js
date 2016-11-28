@@ -49,3 +49,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendBack) {
 		sendBack({farewell: "pooper scooper"});
     }    
 });
+
+//handles when a hotkey is pressed
+chrome.commands.onCommand.addListener(function(command) {
+			//send message to image_ident
+	       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, { action: "clearSettings" }); 
+        });
+ });

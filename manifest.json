@@ -14,6 +14,14 @@
 	"persistent": true,
 	"scripts": ["background.js", "jquery.min.js"]
     },
+	"commands": {
+          "toggle-feature-foo": {
+            "suggested_key": {
+              "default": "Ctrl+Shift+Y"
+            },
+            "description": "Clears webpage settings"
+          }
+	},
 	"permissions": [
 		"<all_urls>",
 		"storage",
