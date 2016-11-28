@@ -17,7 +17,11 @@
 	"commands": {
           "toggle-feature-foo": {
             "suggested_key": {
-              "default": "Ctrl+Shift+Y"
+              "default": "Ctrl+Shift+Y",
+              "windows": "Ctrl+Shift+Y",
+              "mac": "Command+Shift+Y",
+              "chromeos": "Ctrl+Shift+Y",
+              "linux": "Ctrl+Shift+Y"
             },
             "description": "Clears webpage settings"
           }
