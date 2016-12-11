@@ -8,11 +8,9 @@ var sendToServer = function(img, hasAlt) {
     	data: JSON.stringify({'url': img.src,'secret': server_secret}),
     	contentType: 'application/json',
     	success: function (data) {
-    		if(hasAlt == true) {
-    			img.alt += "GII has provided the following description: ";
-    		}
-    		img.alt += "This image is described as: " + data['description'] + ". ";
-    		img.alt += "This image contains the text: " + data['text'] + ".";
+    		img.alt += "GII has provided the following description: ";
+    		img.alt += data['description'];
+    		img.alt += data['text'];
         },
         error: function (e) {
             console.log(e);

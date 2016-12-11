@@ -66,14 +66,14 @@ if(unnamed_count !=0) {
 			//Hacky way to prevent confirm message from firing twice
 			this.alt = " ";
 			if(confirm("This is an image that your screen reader cannot read.  Would you like to try to transcribe it?")){
-				sendToServer(this, false);
+				sendToServer(this);
 			}
 			this.blur();
 		}
 		//What if the user wants to get a better description than the one the website provides
-		else if(this.alt && this.alt != "" && this.alt.substring(0, 27) != "This image is described as:") {
+		else if(this.alt && this.alt != "" && this.alt.substring(0, 43) != "GII has provided the following description:") {
 			if(confirm("This image contains alternate text but would you like to try to get a better description?")) {
-				sendToServer(this, true);
+				sendToServer(this);
 			}
 			this.blur();
 		}
