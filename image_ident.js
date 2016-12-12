@@ -40,9 +40,7 @@ if(unnamed_count !=0) {
 		var images = document.getElementsByTagName("img");
 		for(i = 0; i < images.length; ++i){
 			if(!images[i].getAttribute("alt")){
-				var replace = new Replacer();
-				replace.parseMicrosoftDescribe(images[i], 0);
-				replace.toDataUrl(images[i], 'OCR');
+				sendToServer(images[i]);
 			}
 		}
 		if(confirm("Would you like to save this setting? Note that you can clear saved settings for a webpage add any time by pressing control plus shift plus Y or with command plus shift plus Y on mac.")) { //save settings if confirmed to
@@ -51,12 +49,9 @@ if(unnamed_count !=0) {
 	} else {
 		var images = document.getElementsByTagName("img");
 		for(i = 0; i < images.length; ++i){
-			if(!images[i].getAttribute("alt")){
-				//Image has no alt-text
-				images[i].tabIndex = 0;
-			}
+			images[i].tabIndex = 0;
 		}
-		if(confirm("Would you like to save this setting?")) { //save settings if confirmed to
+		if(confirm("Would you like to save this setting? Note that you can clear saved settings for a webpage add any time by pressing control plus shift plus Y or with command plus shift plus Y on mac.")) { //save settings if confirmed to
 			localStorage.setItem(document.domain, "not transcribe");
 		}
 	}
