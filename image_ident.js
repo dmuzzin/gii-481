@@ -66,11 +66,12 @@ if(unnamed_count !=0) {
 			this.blur();
 		}
 		//What if the user wants to get a better description than the one the website provides
-		else if(this.alt && this.alt != "" && this.alt != " " && this.alt.substring(0, 43) != "GII has provided the following description:") {
-			//Hacky way to prevent confirm message from firing twice
-			this.alt = " ";
-			if(confirm("This image contains alternate text but would you like to try to get a better description?")) {
-				sendToServer(this);
+		else if(this.alt && this.alt != "" && this.alt != " " && this.alt.substring(this.alt.length - 1, this.alt.length) != " ") {
+			this.alt += " ";
+			if(!this.alt.includes("GII has provided the following description:")) {
+				if(confirm("This image contains alternate text but would you like to try to get a better description?")) {
+					sendToServer(this);
+				}
 			}
 			this.blur();
 		}
