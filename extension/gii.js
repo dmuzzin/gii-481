@@ -1,4 +1,4 @@
-var server = 'https://valleyofsmoke.getat.us:2000/';
+var server = '<Server Address Here>';
 
 var sendToServer = function(img, hasAlt) {
 	$.ajax({
